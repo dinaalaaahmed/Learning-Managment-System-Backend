@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  id: 
+  name: 
+  syllabus: 
+  instructor_id: 1
+
+two:
+  id: 
+  name: 
+  syllabus: 
+  instructor_id: 1
