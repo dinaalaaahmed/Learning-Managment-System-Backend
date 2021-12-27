@@ -9,7 +9,7 @@ class UsersController < ApplicationController
                 
             end 
             def show
-                user = User.find(params[:id])
+                user = User.find(@user.id)
                 render json:
                 {
                     status: 'SUCCESS', message:"Loaded user", data: user
