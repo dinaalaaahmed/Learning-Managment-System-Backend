@@ -5,7 +5,7 @@ class AuthenticationController < ApplicationController
                   token = encode_token({user_id: user.id, user_type: user.user_type})
                   render json: {user: user, token: token}
                 else
-                  render json: {error: "Invalid username or password"}
+                  render json: {error: "Invalid username or password"}, status: 500  
                 end
               end
             
@@ -16,7 +16,7 @@ class AuthenticationController < ApplicationController
                   token = encode_token({user_id: user.id, user_type: user.user_type})
                   render json: {user: user, token: token}
                 else
-                  render json: {error: "Invalid username or password"}
+                  render json: {error: "Invalid username or password"}, status: 500  
                 end
               end 
             private
