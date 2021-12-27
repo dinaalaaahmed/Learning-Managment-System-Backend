@@ -3,7 +3,7 @@ class CoursesController < ApplicationController
     before_action :admin_instructor_only, only: [:update, :destroy, :create]
 
     def index
-        courses = Course.order('created_at DESC')
+        courses = Course.joins(:user).select('courses.id,courses.name, users.id as instructor_id, users.user_name as instructor_user_name, users.first_name as instructor_first_name, users.last_name as instructor_last_name')
         render json:
         {
             status: 'SUCCESS', message:"Loaded courses", data: courses
@@ -17,7 +17,6 @@ class CoursesController < ApplicationController
             status: 'SUCCESS', message:"Loaded courses", data: courses
         }, status: :ok      
     end 
-
     def create
         courses = Course.create!(syllabus: course_params[:syllabus], name: course_params[:name], user_id: @user.id)
         render json:
@@ -27,7 +26,7 @@ class CoursesController < ApplicationController
         
     end 
     def show
-        course = Course.find(params[:id])
+        course = Course.joins(:user).where(id: params[:id]).select('courses.id, courses.name, courses.syllabus, users.id as instructor_id, users.user_name as instructor_user_name, users.first_name as instructor_first_name, users.last_name as instructor_last_name')
         render json:
         {
             status: 'SUCCESS', message:"Loaded course", data: course

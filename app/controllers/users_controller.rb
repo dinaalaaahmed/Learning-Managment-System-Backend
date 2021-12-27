@@ -37,7 +37,7 @@ class UsersController < ApplicationController
                 end
             end
             def update
-                user = User.find(params[:id])
+                user = User.find(@user.id)
                 if user.update(user_params)
                     render json:
                     {
@@ -51,7 +51,7 @@ class UsersController < ApplicationController
                 end
             end
             def destroy
-                user = User.find(params[:id])
+                user = User.find(@user.id)
                 user.destroy
                 render json:
                 {
@@ -60,7 +60,6 @@ class UsersController < ApplicationController
             end
 
             private
-
             def user_params
                 params.permit(:email, :password, :user_name, :user_type, :first_name, :last_name, :birth_date)
             end
@@ -71,7 +70,7 @@ class UsersController < ApplicationController
                 unless current_user.user_type == 'admin'
                   redirect_to :back, :alert => "Access denied."
                 end
-              end
+            end
             
 
 end

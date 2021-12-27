@@ -53,8 +53,9 @@ ActiveRecord::Schema.define(version: 2021_12_27_134510) do
   end
 
   create_table "materials", force: :cascade do |t|
-    t.string "material_type"
-    t.text "content"
+    t.string "material_type", null: false
+    t.string "content"
+    t.string "name", null: false
     t.bigint "course_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

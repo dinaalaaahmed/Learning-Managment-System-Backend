@@ -19,20 +19,21 @@ class MaterialsController < ApplicationController
         end 
     
         def create
-            course = Course.find_by(user_id: @user.id, id: material_params[:course_id])
-            if course
-                materials = Material.create!(material_type: material_params[:material_type], content: material_params[:content], course_id: material_params[:course_id])
-                render json:
-                {
-                    status: 'SUCCESS', message:"created material", data: materials
-                }, status: :ok
-            else
-                render json:
-                {
-                    status: 'FAILED', message:"Not autherized", data: materials
-                }, status: :ok
+            if material_params[:material_type] == "vedio"
+                course = Course.find_by(user_id: @user.id, id: material_params[:course_id])
+                if course
+                    materials = Material.create!(material_type: material_params[:material_type], content: material_params[:content], course_id: material_params[:course_id], name: material_params[:name])
+                    render json:
+                    {
+                        status: 'SUCCESS', message:"created material", data: materials
+                    }, status: :ok
+                else
+                    render json:
+                    {
+                        status: 'FAILED', message:"Not autherized", data: materials
+                    }, status: :ok
+                end
             end
-            
         end 
         def show
             material = Material.find(params[:id])
@@ -84,7 +85,7 @@ class MaterialsController < ApplicationController
         private
     
         def material_params
-            params.permit(:material_type, :content, :course_id, :file)
+            params.permit(:material_type, :content, :course_id, :file, :name)
         end
         def admin_instructor_only
             unless @user.user_type == 'admin' || 'instructor'
