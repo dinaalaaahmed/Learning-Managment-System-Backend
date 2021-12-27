@@ -1,6 +1,4 @@
 class AuthenticationController < ApplicationController
-            # before_action :authorized
-
             def create
                 user = User.create!(user_params)
                 if user.valid?
