@@ -14,15 +14,21 @@ class MaterialsController < ApplicationController
             materials = Material.where(course_id: params[:course_id], material_type: params[:material_type])
             render json:
             {
+                message:"Loaded materials", data: materials
+            }, status: :ok      
+        end 
+        def materials_for_specific_course
+            
+            materials = Material.where(course_id: params[:course_id])
+            render json:
+            {
                 status: 'SUCCESS', message:"Loaded materials", data: materials
             }, status: :ok      
         end 
-    
         def create
-            if material_params[:material_type] == "video"
-                course = Course.find_by(user_id: @user.id, id: material_params[:course_id])
+                course = Course.find_by(user_id: @user.id, id: video_material_params[:course_id])
                 if course
-                    materials = Material.create!(material_type: material_params[:material_type], content: material_params[:content], course_id: material_params[:course_id], name: material_params[:name])
+                    materials = Material.create!(video_material_params)
                     render json:
                     {
                         status: 'SUCCESS', message:"created material video", data: materials
@@ -30,40 +36,55 @@ class MaterialsController < ApplicationController
                 else
                     render json:
                     {
-                        status: 'FAILED', message:"Not autherized", data: materials
-                    }, status: :ok
+                         error: "Not autherized"
+                    }, status: 500
                 end
-            end
+            
         end 
         def create_file
-            if material_params[:material_type] == "file"
-                course = Course.find_by(user_id: @user.id, id: material_params[:course_id])
+                course = Course.find_by(user_id: @user.id, id: file_material_params[:course_id])
                 if course
-                    materials = Material.create!(material_type: material_params[:material_type], content: material_params[:content], course_id: material_params[:course_id], name: material_params[:name])
-                    render json:
-                    {
-                        status: 'SUCCESS', message:"created material", data: materials
-                    }, status: :ok
+                    materials = Material.create!(file_material_params)
+                    materials.file.attach(file_material_params[:file])
+                    if materials.file.attached? 
+                        render json:
+                        {
+                            status: 'SUCCESS', message:"created material pdf file", data: materials
+                        }, status: 200
+                    else
+                        render json:
+                        {
+                            message:"couldn't create material pdf file", 
+                        }, status: 500
+                    end
                 else
                     render json:
                     {
-                        status: 'FAILED', message:"Not autherized", data: materials
-                    }, status: :ok
+                        status: 'FAILED', message:"Not autherized"
+                    }, status: 500
                 end
-            end
+            
         end 
         def show
             material = Material.find(params[:id])
-            render json:
-            {
-                status: 'SUCCESS', message:"Loaded material", data: material
-            }, status: :ok
+            if material.material_type == 'video'
+                render json:
+                {
+                    status: 'SUCCESS', message:"Loaded material", data: material
+                }, status: :ok
+            end
+        end
+        def show_file
+            material = Material.find(params[:id])
+            if material.material_type == 'file'
+                send_data material.file.download, filename: material.file.filename.to_s, content_type: material.file.content_type, course_id: material.course_id, name: material.name, id: material.id
+            end
         end
         def update
-            course = Course.find_by(user_id: @user.id, id: material_params[:course_id])
+            course = Course.find_by(user_id: @user.id, id: video_material_params[:course_id])
             if course
                 material = Material.find(params[:id])
-                if material.update(material_params)
+                if material.update(video_material_params)
                     render json:
                     {
                         status: 'SUCCESS', message:"updated material", data: material
@@ -71,19 +92,19 @@ class MaterialsController < ApplicationController
                 else
                     render json:
                     {
-                        status: 'FAILED', message:"Material not updated", data: material.errors
+                        message:"Material not updated", data: material.errors
                     }, status: 500  
                 end
             else
                 render json:
                 {
-                    status: 'FAILED', message:"Not autherized", data: materials
-                }, status: :ok
+                    status: 'FAILED', message:"Not autherized"
+                }, status: 500
             end
 
         end
         def destroy
-            course = Course.find_by(user_id: @user.id, id: material_params[:course_id])
+            course = Course.find_by(user_id: @user.id, id: video_material_params[:course_id])
             if course
                 material = Material.find(params[:id])
                 material.destroy
@@ -94,15 +115,18 @@ class MaterialsController < ApplicationController
             else
                 render json:
                 {
-                    status: 'FAILED', message:"Not autherized", data: materials
-                }, status: :ok
+                    status: 'FAILED', message:"Not autherized"
+                }, status: 500
             end
         end
     
         private
     
-        def material_params
-            params.permit(:material_type, :content, :course_id, :file, :name)
+        def video_material_params
+            params.permit(:material_type, :content, :course_id, :name)
+        end
+        def file_material_params
+            params.permit(:material_type, :course_id, :file, :name)
         end
         def admin_instructor_only
             unless @user.user_type == 'admin' || 'instructor'

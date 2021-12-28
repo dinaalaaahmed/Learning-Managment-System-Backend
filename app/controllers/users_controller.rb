@@ -10,10 +10,17 @@ class UsersController < ApplicationController
             end 
             def show
                 user = User.find(@user.id)
+                if user
                 render json:
                 {
                     status: 'SUCCESS', message:"Loaded user", data: user
                 }, status: :ok
+                else
+                    render json:
+                    {
+                       message:"User not found", data: user
+                    }, status: 500
+                end
             end
             def change_role
                 if @user.user_type == 'admin'

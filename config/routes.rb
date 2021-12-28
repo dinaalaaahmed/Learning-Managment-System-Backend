@@ -10,12 +10,17 @@ Rails.application.routes.draw do
       get "/courses/index", to: "courses#index"
       get "/questions/index", to: "questions#index"
       get "/materials/index", to: "materials#index"
+      get "/materials/show-file", to: "materials#show_file"                                     
 
       get "/quizzes/index", to: "quizzes#index"
 
       get "/questions/question_for_specific_quiz" , to: "questions#question_for_specific_quiz"
       get "/materials/materials_for_specific_course_of_specific_type" , to: "materials#materials_for_specific_course_of_specific_type"
+      get "/materials/materials_for_specific_course" , to: "materials#materials_for_specific_course"
+
+      
       get "/quizzes/quizzes_for_specific_course" , to: "quizzes#quizzes_for_specific_course"
+
       get "/courses/instructor", to: "courses#courses_for_specific_instructor"
       put "/users/change_role", to: "users#change_role"
 
