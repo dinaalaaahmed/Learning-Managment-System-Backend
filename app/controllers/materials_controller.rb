@@ -45,7 +45,10 @@ class MaterialsController < ApplicationController
                 course = Course.find_by(user_id: @user.id, id: file_material_params[:course_id])
                 if course
                     materials = Material.create!(file_material_params)
+                    puts materials
+
                     materials.file.attach(file_material_params[:file])
+                    puts materials
                     if materials.file.attached? 
                         render json:
                         {
