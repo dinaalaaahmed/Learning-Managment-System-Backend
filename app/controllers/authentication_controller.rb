@@ -5,18 +5,18 @@ class AuthenticationController < ApplicationController
                   token = encode_token({user_id: user.id, user_type: user.user_type})
                   render json: {user: user, token: token}
                 else
-                  render json: {error: "Invalid username or password"}, status: 500  
+                  render json: {error: "Invalid username or password" , status: 500 } 
                 end
               end
             
               # LOGGING IN
               def login
                 user = User.find_by(email: params[:email])
-                if user && BCrypt::Password.create(user_params[:password]) == user.password_digest 
+                if user && user.authenticate(user_params[:password])
                   token = encode_token({user_id: user.id, user_type: user.user_type})
                   render json: {user: user, token: token}
                 else
-                  render json: {error: "Invalid username or password"}, status: 500  
+                  render json: {error: "Invalid username or password", status: 500}  
                 end
               end 
             private

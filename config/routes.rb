@@ -4,11 +4,13 @@ Rails.application.routes.draw do
       resource :users, :courses, :questions, :materials, :quizzes
       post "/users/sign-up", to: "authentication#create"
       post "/users/login", to: "authentication#login"
-      
+      post "/materials/create-file", to: "materials#create_file"
+
       get "/users/index", to: "users#index"
       get "/courses/index", to: "courses#index"
       get "/questions/index", to: "questions#index"
       get "/materials/index", to: "materials#index"
+
       get "/quizzes/index", to: "quizzes#index"
 
       get "/questions/question_for_specific_quiz" , to: "questions#question_for_specific_quiz"

@@ -19,7 +19,24 @@ class MaterialsController < ApplicationController
         end 
     
         def create
-            if material_params[:material_type] == "vedio"
+            if material_params[:material_type] == "video"
+                course = Course.find_by(user_id: @user.id, id: material_params[:course_id])
+                if course
+                    materials = Material.create!(material_type: material_params[:material_type], content: material_params[:content], course_id: material_params[:course_id], name: material_params[:name])
+                    render json:
+                    {
+                        status: 'SUCCESS', message:"created material video", data: materials
+                    }, status: :ok
+                else
+                    render json:
+                    {
+                        status: 'FAILED', message:"Not autherized", data: materials
+                    }, status: :ok
+                end
+            end
+        end 
+        def create_file
+            if material_params[:material_type] == "file"
                 course = Course.find_by(user_id: @user.id, id: material_params[:course_id])
                 if course
                     materials = Material.create!(material_type: material_params[:material_type], content: material_params[:content], course_id: material_params[:course_id], name: material_params[:name])
