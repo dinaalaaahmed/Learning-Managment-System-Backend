@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_27_134510) do
+ActiveRecord::Schema.define(version: 2021_12_30_132530) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -62,6 +62,16 @@ ActiveRecord::Schema.define(version: 2021_12_27_134510) do
     t.index ["course_id"], name: "index_materials_on_course_id"
   end
 
+  create_table "qas", force: :cascade do |t|
+    t.text "content"
+    t.bigint "user_id"
+    t.bigint "course_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["course_id"], name: "index_qas_on_course_id"
+    t.index ["user_id"], name: "index_qas_on_user_id"
+  end
+
   create_table "questions", force: :cascade do |t|
     t.text "ques"
     t.string "answer"
@@ -78,6 +88,16 @@ ActiveRecord::Schema.define(version: 2021_12_27_134510) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["course_id"], name: "index_quizzes_on_course_id"
+  end
+
+  create_table "replies", force: :cascade do |t|
+    t.text "content"
+    t.bigint "user_id"
+    t.bigint "qa_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["qa_id"], name: "index_replies_on_qa_id"
+    t.index ["user_id"], name: "index_replies_on_user_id"
   end
 
   create_table "takequizzes", force: :cascade do |t|
@@ -106,8 +126,12 @@ ActiveRecord::Schema.define(version: 2021_12_27_134510) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "courses", "users"
   add_foreign_key "materials", "courses"
+  add_foreign_key "qas", "courses"
+  add_foreign_key "qas", "users"
   add_foreign_key "questions", "quizzes"
   add_foreign_key "quizzes", "courses"
+  add_foreign_key "replies", "qas"
+  add_foreign_key "replies", "users"
   add_foreign_key "takequizzes", "quizzes"
   add_foreign_key "takequizzes", "users"
 end
