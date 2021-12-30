@@ -24,5 +24,9 @@ Rails.application.routes.draw do
       get "/courses/instructor", to: "courses#courses_for_specific_instructor"
       put "/users/change_role", to: "users#change_role"
 
+      get "/qa/course", to: "qas#get_all_qas_for_specific_course"
+      get "/qa", to: "qas#get_specific_qa"
+      post "/qa", to: "qas#create_qa_for_specific_course"
+      post "/qa/reply", to: "qas#create_reply_for_specific_qa"
         # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end

@@ -1,4 +1,4 @@
-class CreateQAs < ActiveRecord::Migration[6.1]
+class CreateQas < ActiveRecord::Migration[6.1]
   def change
     create_table :qas do |t|
         t.text :content
