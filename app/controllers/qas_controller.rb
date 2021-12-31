@@ -3,17 +3,19 @@ class QasController < ApplicationController
 
     def get_all_qas_for_specific_course
         qas = Qa.joins(:user).where(course_id: params[:course_id]).select('qas.id, qas.content, users.id as learner_id, users.user_name as learner_user_name, users.first_name as learner_first_name, users.last_name as learner_last_name')
-        data = []
-        qas.each do |qa|
-            replies = Reply.joins(:user).where(qa_id: qa.id).select('replies.id, replies.content, users.id as learner_id, users.user_name as learner_user_name, users.first_name as learner_first_name, users.last_name as learner_last_name')
-            data.push({
-                qa: qa,
-                replies: replies
-            })
-        end
+#        data = []
+        
+        # qas.each do |qa|
+         #   replies = Reply.joins(:user).where(qa_id: qa.id).select('replies.id, replies.content, users.id as learner_id, users.user_name as learner_user_name, users.first_name as learner_first_name, users.last_name as learner_last_name')
+          #  data.push({
+           #     qa: qa,
+            #    replies: replies
+         #   })
+        # end
+        puts qas
         render json:
         {
-            status: 'SUCCESS', message:"Loaded qas", data: data
+            status: 'SUCCESS', message:"Loaded qas", data: qas
         }, status: :ok
     end
 
