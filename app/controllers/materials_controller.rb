@@ -10,11 +10,17 @@ class MaterialsController < ApplicationController
             
         end 
         def materials_for_specific_course_of_specific_type
-            
             materials = Material.where(course_id: params[:course_id], material_type: params[:material_type])
+            data = []
+            materials.each do |material|
+             data.push({
+                material: material,
+                file: url_for(material.file)
+              })
+            end
             render json:
             {
-                message:"Loaded materials", data: materials
+                message:"Loaded materials", data: data
             }, status: :ok      
         end 
         def materials_for_specific_course
