@@ -18,17 +18,10 @@ class QasController < ApplicationController
             question_user: question_user,
             qas: qa
         }
-        if not qa.empty?
-            render json:
+        render json:
             {
                 status: 'SUCCESS', message:"Loaded qa", data: data
             }, status: :ok
-        else
-            render json:
-            {
-                status: 'FAILED', message:"Qa not found", data: data
-            }, status: 404
-        end
     end
 
     def create_qa_for_specific_course
