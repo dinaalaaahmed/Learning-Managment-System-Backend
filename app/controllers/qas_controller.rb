@@ -12,8 +12,8 @@ class QasController < ApplicationController
 
     def get_specific_qa
         qa = Qa.joins("INNER JOIN replies ON replies.qa_id = qas.id
-            INNER JOIN users ON users.id = replies.user_id").where("qas.id": params[:id]).select('qas.course_id, qas.content, replies.id as id, replies.content as reply_content, replies.qa_id as reply_qa_id, replies.user_id as reply_user_id, users.id as reply_user_id, users.user_name as reply_user_name, users.first_name as reply_first_name, users.last_name as reply_last_name')
-        question_user = Qa.joins(:user).where("qas.id": params[:id]).select('qas.id, users.id as learner_id, users.user_name as learner_user_name, users.first_name as learner_first_name, users.last_name as learner_last_name')
+            INNER JOIN users ON users.id = replies.user_id").where("qas.id": params[:id]).select('qas.course_id, replies.id as id, replies.content as reply_content, replies.qa_id as reply_qa_id, replies.user_id as reply_user_id, users.id as reply_user_id, users.user_name as reply_user_name, users.first_name as reply_first_name, users.last_name as reply_last_name')
+        question_user = Qa.joins(:user).where("qas.id": params[:id]).select('qas.id, qas.content, users.id as learner_id, users.user_name as learner_user_name, users.first_name as learner_first_name, users.last_name as learner_last_name')
         data = {
             question_user: question_user,
             qas: qa
