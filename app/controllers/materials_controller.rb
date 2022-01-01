@@ -11,12 +11,15 @@ class MaterialsController < ApplicationController
         end 
         def materials_for_specific_course_of_specific_type
             materials = Material.where(course_id: params[:course_id], material_type: params[:material_type])
-            data = []
-            materials.each do |material|
-             data.push({
-                material: material,
-                file: url_for(material.file)
-              })
+            data = materials
+            if material_type == 'file'
+                data = []
+                materials.each do |material|
+                data.push({
+                    material: material,
+                    file: url_for(material.file)
+                })
+                end
             end
             render json:
             {
@@ -51,10 +54,7 @@ class MaterialsController < ApplicationController
                 course = Course.find_by(user_id: @user.id, id: file_material_params[:course_id])
                 if course
                     materials = Material.create!(file_material_params)
-                    puts materials
-
                     materials.file.attach(file_material_params[:file])
-                    puts materials
                     if materials.file.attached? 
                         render json:
                         {
