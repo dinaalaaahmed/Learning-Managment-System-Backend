@@ -12,7 +12,7 @@ class MaterialsController < ApplicationController
         def materials_for_specific_course_of_specific_type
             materials = Material.where(course_id: params[:course_id], material_type: params[:material_type])
             data = materials
-            if material_type == 'file'
+            if params[:material_type] == 'file'
                 data = []
                 materials.each do |material|
                 data.push({
