@@ -31,9 +31,9 @@ gem 'jwt'
 gem 'bootsnap', '>= 1.4.4', require: false
 gem 'composite_primary_keys', '=13.0.1'
 gem 'rails_12factor', group: :production
+gem 'faker'
 
 group :development, :test do
-  gem 'faker'
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
 end
@@ -45,7 +45,6 @@ group :development do
   # Can be configured to work on production as well see: https://github.com/MiniProfiler/rack-mini-profiler/blob/master/README.md
   gem 'rack-mini-profiler', '~> 2.0'
   gem 'listen', '~> 3.3'
-  gem 'faker'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
 end
@@ -54,7 +53,6 @@ group :test do
   # Adds support for Capybara system testing and selenium driver
   gem 'capybara', '>= 3.26'
   gem 'selenium-webdriver'
-  gem 'faker'
   # Easy installation and use of web drivers to run system tests with browsers
   gem 'webdrivers'
 end
