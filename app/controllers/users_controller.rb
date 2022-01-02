@@ -25,10 +25,10 @@ class UsersController < ApplicationController
             def change_role
                 if @user.user_type == 'admin'
                     user = User.find(change_role_params[:user_id])
-                    if user.update(user_type: change_role_params[:user_type])
+                    if user.update(user_type: 'instructor')
                         render json:
                         {
-                            status: 'SUCCESS', message:"updated user", data: user
+                            status: 'SUCCESS', message:"updated user", data:  user
                         }, status: :ok 
                     else
                         render json:

@@ -17,7 +17,7 @@ class MaterialsController < ApplicationController
                 materials.each do |material|
                 data.push({
                     material: material,
-                    file: url_for(material.file)
+                    file: polymorphic_url(material.file)
                 })
                 end
             end
