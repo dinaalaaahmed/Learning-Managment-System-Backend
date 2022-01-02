@@ -33,8 +33,8 @@ end
 
 User.create!({
   user_name: "dinaalaa",
-  email: Faker::Internet.unique.email,
-  password_digest: BCrypt::Password.create(1234),
+  email: "instructor@gmail.com",
+  password_digest: BCrypt::Password.create(123456789),
   first_name: "Dina",
   last_name: "Alaa",
   user_type: 'instructor',
@@ -44,8 +44,8 @@ User.create!({
 
 User.create!({
   user_name: "kareem",
-  email: Faker::Internet.unique.email,
-  password_digest: BCrypt::Password.create(1234),
+  email: "admin@gmail.com",
+  password_digest: BCrypt::Password.create(123456789),
   first_name: "Kareem",
   last_name: "Mohamed",
   user_type: 'admin',
@@ -83,34 +83,3 @@ end
     end
 end
     
-5. times do
-  Material.create!({
-    name: 'test',
-    material_type: 'yputube',
-    content: '.youtube.com',
-    course_id: 1
-  })
-end
-
-5. times do
-  Quiz.create!({
-    course_id: 1
-  })
-end
-
-5. times do
-  Question.create!({
-    ques: 'what?',
-    answer: 'yes',
-    choices: 'yes,No,Okay',
-    quiz_id: 1
-  })
-end
-
-1. times do
-  Takequiz.create!({
-    user_id: 1,
-    quiz_id: 1,
-    grade: 10
-  })
-end
